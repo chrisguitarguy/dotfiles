@@ -1,0 +1,20 @@
+export PATH=/usr/local/sbin:$PATH
+export PS1="\u@\h: \W> "
+
+## Aliases  ##
+
+# Various System Helpers
+alias flushdns="dscacheutil -flushcache"
+alias refresh="source ~/.bash_profile"
+
+# lazy
+alias l="ls"
+alias la="ls -al"
+alias ..="cd .."
+alias gits="git status"
+alias hosts="sudo vim /etc/hosts"
+
+# include local (supa secret) stuff
+if [ -f ~/.profile ]; then
+    source ~/.profile
+fi
