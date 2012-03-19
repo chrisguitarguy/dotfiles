@@ -10,6 +10,7 @@ alias refresh="source ~/.bash_profile"
 # lazy
 alias l="ls"
 alias la="ls -al"
+alias lg="ls -al | grep "
 alias ..="cd .."
 alias gits="git status"
 alias hosts="sudo vim /etc/hosts"
