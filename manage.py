@@ -1,0 +1,78 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import glob
+import os
+import sys
+
+DIR = os.path.abspath(os.path.dirname(__file__))
+HOME = os.path.expanduser('~')
+
+
+def find_linkables():
+    """
+    Look for all files ending with `.link` in the same directory as this file.
+    Also finds all the subdirectories of this file. Returns a list of tuples
+    (destination, linkname) of everything that should be symlinked.
+    """
+    links = glob.glob(os.path.join(DIR,  '*.link'))
+    dirs = [os.path.join(DIR, i) for i in os.listdir(DIR) 
+            if os.path.isdir(i) and not i.startswith('.')]
+    rv = []
+    for i in dirs + links:
+        name = os.path.basename(i).split('.')[0]
+        rv.append((i, '.'+name,))
+    return rv
+
+
+def maybe_delete(loc):
+    """
+    Deletes `loc` if it's a symlink
+    """
+    rv = False
+    if os.path.islink(loc):
+        try:
+            os.remove(loc)
+        except OSError:
+            print('Could not remove {}'.format(loc))
+        else:
+            rv = True
+    return rv
+
+
+def make_links(linkables):
+    """
+    Take a list of tuples (source, name), and create symlink
+    """
+    for dest, name in linkables:
+        name = os.path.join(HOME, name)
+        rmv = maybe_delete(name)
+        if rmv:
+            print("Removed {}".format(name))
+        os.symlink(dest, name)
+        print('Symlinked {} to {}'.format(dest, name))
+
+  
+def main():
+    """
+    Main entry point for this script.
+    """
+    if 'nt' == os.name:
+        print('This does not work on windows')
+        sys.exit(1)
+    try:
+        action = sys.argv[1]
+    except IndexError:
+        action = 'install'
+    linkables = find_linkables()
+    if 'remove' == action:
+        for src, name in linkables:
+            if maybe_delete(os.path.join(HOME, name)):
+                print('Removed {}'.format(os.path.join(HOME, name)))
+    else:
+        make_links(linkables)
+    sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()
