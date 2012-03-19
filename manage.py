@@ -21,7 +21,7 @@ def find_linkables():
     rv = []
     for i in dirs + links:
         name = os.path.basename(i).split('.')[0]
-        rv.append((i, '.'+name,))
+        rv.append((i, os.path.join(HOME, '.'+name),))
     return rv
 
 
@@ -45,9 +45,7 @@ def make_links(linkables):
     Take a list of tuples (source, name), and create symlink
     """
     for dest, name in linkables:
-        name = os.path.join(HOME, name)
-        rmv = maybe_delete(name)
-        if rmv:
+        if maybe_delete(name):
             print("Removed {}".format(name))
         os.symlink(dest, name)
         print('Symlinked {} to {}'.format(dest, name))
@@ -67,8 +65,8 @@ def main():
     linkables = find_linkables()
     if 'remove' == action:
         for src, name in linkables:
-            if maybe_delete(os.path.join(HOME, name)):
-                print('Removed {}'.format(os.path.join(HOME, name)))
+            if maybe_delete(name):
+                print('Removed {}'.format(name))
     else:
         make_links(linkables)
     sys.exit(0)
