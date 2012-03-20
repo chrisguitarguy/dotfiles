@@ -22,7 +22,7 @@ set listchars=tab:▸\ ,eol:¬
 if has('gui_running')
     colorscheme blackboard " gvim or macvim
 else
-    colorscheme blackboard-alt " cli
+    colorscheme blackboard-alt
 endif
 
 " ---------

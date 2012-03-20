@@ -32,7 +32,7 @@ highlight Identifier ctermfg=28
 highlight Function ctermfg=166 gui=bold
 highlight clear Search
 highlight Search ctermbg=8
-highlight PreProc ctermfg=202
+highlight PreProc ctermfg=220
 
 " StatusLine
 highlight StatusLine ctermfg=0 ctermbg=230 gui=italic

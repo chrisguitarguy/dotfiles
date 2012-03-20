@@ -16,3 +16,6 @@
 [submodule "vim/bundle/vim-blackboard"]
 	path = vim/bundle/vim-blackboard
 	url = git://github.com/nelstrom/vim-blackboard.git
+[submodule "vim/bundle/solarized"]
+	path = vim/bundle/solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
