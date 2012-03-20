@@ -1,11 +1,12 @@
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 syntax on
+filetype on
 set encoding=utf-8
 set autoindent
 set nowrap
 set softtabstop=4
-set shiftwidth=2
+set shiftwidth=4
 set tabstop=4
 set expandtab
 set nosmarttab
@@ -23,13 +24,6 @@ colorscheme blackboard
 " ---------
 " Filetype specific fun
 " ---------
-autocmd FileType make setlocal noexpandtab " Use tabs in makefiles
-
-" ---------
-" Mappings
-" ---------
-
-" in visual mode, tab indents
-vmap <Tab> :>
-" in visual mode, shift+tab unindents
-vmap <S-Tab> :<
+if has('autocmd')
+    autocmd FileType make setlocal noexpandtab " Use tabs in makefiles
+endif
