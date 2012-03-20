@@ -9,7 +9,6 @@ set shiftwidth=2
 set tabstop=4
 set expandtab
 set nosmarttab
-" set textwidth=78
 set colorcolumn=80
 set autoindent
 
@@ -25,3 +24,12 @@ colorscheme blackboard
 " Filetype specific fun
 " ---------
 autocmd FileType make setlocal noexpandtab " Use tabs in makefiles
+
+" ---------
+" Mappings
+" ---------
+
+" in visual mode, tab indents
+vmap <Tab> :>
+" in visual mode, shift+tab unindents
+vmap <S-Tab> :<
