@@ -1,4 +1,4 @@
-export PATH=/usr/local/sbin:$PATH
+export PATH=~/bin:/usr/local/sbin:$PATH
 export PS1="\u@\h: \W> "
 
 ## Aliases  ##
