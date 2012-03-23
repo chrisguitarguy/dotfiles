@@ -47,10 +47,14 @@ def make_links(linkables):
     for dest, name in linkables:
         if maybe_delete(name):
             print("Removed {}".format(name))
-        os.symlink(dest, name)
-        print('Symlinked {} to {}'.format(dest, name))
+        try:
+            os.symlink(dest, name)
+        except OSError:
+            print('Could not symlink {} to {}'.format(dest, name))
+        else:
+            print('Symlinked {} to {}'.format(dest, name))
 
-  
+
 def main():
     """
     Main entry point for this script.
