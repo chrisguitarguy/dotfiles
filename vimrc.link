@@ -12,6 +12,8 @@ set expandtab
 set nosmarttab
 set colorcolumn=80
 set autoindent
+set backspace=2
+
 
 " ----------
 " UI
