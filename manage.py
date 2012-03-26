@@ -34,8 +34,9 @@ def maybe_delete(loc):
         try:
             os.remove(loc)
         except OSError:
-            print('Could not remove {}'.format(loc))
+            print('Could not remove %s' % loc)
         else:
+            print('Removed %s' % loc)
             rv = True
     return rv
 
@@ -45,14 +46,13 @@ def make_links(linkables):
     Take a list of tuples (source, name), and create symlink
     """
     for dest, name in linkables:
-        if maybe_delete(name):
-            print("Removed {}".format(name))
+        maybe_delete(name)
         try:
             os.symlink(dest, name)
         except OSError:
-            print('Could not symlink {} to {}'.format(dest, name))
+            print('Could not symlink %s to %s' % (dest, name))
         else:
-            print('Symlinked {} to {}'.format(dest, name))
+            print('Symlinked %s to %s' % (dest, name))
 
 
 def main():
@@ -69,8 +69,7 @@ def main():
     linkables = find_linkables()
     if 'remove' == action:
         for src, name in linkables:
-            if maybe_delete(name):
-                print('Removed {}'.format(name))
+            maybe_delete(name)
     else:
         make_links(linkables)
     sys.exit(0)
