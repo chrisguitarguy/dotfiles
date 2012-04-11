@@ -20,3 +20,17 @@ alias hosts="sudo vim /etc/hosts"
 if [ -f ~/.profile ]; then
     source ~/.profile
 fi
+
+# Activate virtual envs on cd
+function env_cd()
+{
+    if builtin cd "$@"; then
+      if [ -f $PWD/.env ]; then
+        source $PWD/.env
+      fi
+    fi
+}
+
+cd() {
+    env_cd "$@"
+}
