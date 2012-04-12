@@ -25,7 +25,7 @@ fi
 function env_cd()
 {
     if builtin cd "$@"; then
-      if [ -f $PWD/.env ]; then
+      if [ -f "$PWD/.env" ]; then
         source $PWD/.env
       fi
     fi
