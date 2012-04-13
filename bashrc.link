@@ -34,3 +34,8 @@ function env_cd()
 cd() {
     env_cd "$@"
 }
+
+# Safely unalias things -- no error messages
+safe_unalias() {
+    unalias "$1" &>/dev/null
+}
