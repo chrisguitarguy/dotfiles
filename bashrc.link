@@ -2,6 +2,11 @@ export PATH=~/bin:/usr/local/sbin:$PATH
 export PYTHONPATH=~/py:$PYTHONPATH
 export PS1="\u@\h: \W> "
 
+## History ##
+shopt -s histappend
+export HISTFILE="$HOME/bash_history.d$PWD"
+export PROMT_COMMAND="history -a; history -n; ${PROMPT_COMMAND:-:}"
+
 ## Aliases  ##
 
 # Various System Helpers
@@ -21,18 +26,39 @@ if [ -f ~/.profile ]; then
     source ~/.profile
 fi
 
-# Activate virtual envs on cd
-function env_cd()
+# source .env
+function maybe_env()
+{
+    if [ -f "$PWD/.env" ]; then
+        source "$PWD/.env"
+    fi
+}
+
+# set up history
+function setup_history()
+{
+    history -w # write history
+    local HISTDIR="$HOME/.bash_history.d$PWD" # history folder for this dir
+    if [ ! -d "$HISTDIR" ]; then # history directory doesn't exist. Make it
+        mkdir -p "$HISTDIR"
+    fi
+    export HISTFILE="$HISTDIR/bash_history.txt" # new history file
+    history -c # clear memory
+    history -r # read from the new history file
+}
+
+
+# Activate .env and set up bash history
+function better_cd()
 {
     if builtin cd "$@"; then
-      if [ -f "$PWD/.env" ]; then
-        source $PWD/.env
-      fi
+        maybe_env
+        setup_history
     fi
 }
 
 cd() {
-    env_cd "$@"
+    better_cd "$@"
 }
 
 # Safely unalias things -- no error messages
