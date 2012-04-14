@@ -1,10 +1,10 @@
-export PATH=~"$HOME/bin:$HOME/.util:/usr/local/sbin:$PATH"
-export PYTHONPATH=~/py:$PYTHONPATH
+export PATH="$HOME/bin:/usr/local/sbin:$PATH:$HOME/.util"
+export PYTHONPATH="$HOME/py:${PYTHONPATH:-:}"
 export PS1="\u@\h: \W> "
 
 ## History ##
 shopt -s histappend
-export HISTFILE="$HOME/bash_history.d$PWD"
+export HISTFILE="$HOME/.bash_history.d$PWD/bash_history.txt"
 export PROMT_COMMAND="history -a; history -n; ${PROMPT_COMMAND:-:}"
 
 ## Aliases  ##
@@ -20,6 +20,9 @@ alias lg="ls -al | grep "
 alias ..="cd .."
 alias gits="git status"
 alias hosts="sudo vim /etc/hosts"
+
+# replace cd
+alias cd="better_cd"
 
 # include local (supa secret) stuff
 if [ -f ~/.profile ]; then
@@ -57,11 +60,8 @@ function better_cd()
     fi
 }
 
-cd() {
-    better_cd "$@"
-}
-
 # Safely unalias things -- no error messages
-safe_unalias() {
-    unalias "$1" &>/dev/null
+function safe_unalias()
+{
+    unalias "$@" &>/dev/null
 }
