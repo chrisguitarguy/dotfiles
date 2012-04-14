@@ -1,4 +1,4 @@
-export PATH=~/bin:/usr/local/sbin:$PATH
+export PATH=~"$HOME/bin:$HOME/.util:/usr/local/sbin:$PATH"
 export PYTHONPATH=~/py:$PYTHONPATH
 export PS1="\u@\h: \W> "
 
