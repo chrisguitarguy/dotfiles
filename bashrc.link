@@ -1,6 +1,7 @@
 export PATH="$HOME/bin:/usr/local/sbin:$PATH:$HOME/.util"
 export PYTHONPATH="$HOME/py:${PYTHONPATH:-:}"
 export PS1="\u@\h: \W> "
+export EDITOR="vim"
 
 ## History ##
 shopt -s histappend
@@ -25,7 +26,7 @@ alias hosts="sudo vim /etc/hosts"
 alias cd="better_cd"
 
 # include local (supa secret) stuff
-if [ -f ~/.profile ]; then
+if [ -f "$HOME/.profile" ]; then
     source ~/.profile
 fi
 
