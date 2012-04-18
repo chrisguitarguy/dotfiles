@@ -1,0 +1,111 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Create Github repos from the command line.
+
+First, set up a few environment variables
+
+    shell$ export GITHUB_USER='your_user_name'
+    shell$ export GITHUB_PASSWORD='your_github_pw'
+
+Then run the script:
+
+    shell$ python mkrepo -n 'the repo name' -d 'the repo description'
+    Repo created: git@github.com:your_user_name/the-repo-name.git
+
+To see a list of the available argument, type...
+
+    shell$ python mkrepo -h
+"""
+
+import argparse
+import os
+import sys
+
+import requests
+try:
+    import ujson as json
+except ImportError:
+    import json
+
+
+USER_ENDPOINT = 'https://api.github.com/user/repos'
+ORG_ENDPOINT = 'https://api.github.com/orgs/%(org)s/repos'
+
+
+class GithubCreationError(Exception):
+    pass
+
+def get_auth():
+    """
+    Fetch github username and password from the environ
+    """
+    user = os.environ.get('GITHUB_USER')
+    pw = os.environ.get('GITHUB_PASSWORD')
+    if user is None or pw is None:
+        raise GithubCreationError('Please set up required environment variables')
+    return user, pw
+
+
+def get_args():
+    """
+    Fetch the command line arguments
+    """
+    parser = argparse.ArgumentParser(
+                       description='Create Github repos from the command line')
+    parser.add_argument('-n', '--name', help='The repo name', dest='repo')
+    parser.add_argument('-d', '--desc', help='The repo description', dest='desc')
+    parser.add_argument('-p', '--private', help='Make a private repo',
+                            dest='private', default=False, action='store_true')
+    parser.add_argument('-t', '--team', help='The team ID', dest='team', type=int)
+    parser.add_argument('-o', '--org', help='Create an orgnization repo', dest='org')
+    args = parser.parse_args()
+    if args.repo is None:
+        raise GithubCreationError('Please specify a repo name')
+    return args
+
+
+def make_json(args):
+    """
+    Take the argument result object and turn it into a JSON to send.
+    """
+    rv = {
+        'name': args.repo,
+    }
+    if args.desc is not None:
+        rv['description'] = args.desc
+    if args.private:
+        rv['private'] = True
+    if args.team is not None:
+        rv['team'] = args.team
+    return json.dumps(rv)
+
+
+def handle_response(resp):
+    r = json.loads(resp.text)
+    if 201 != resp.status_code:
+        sys.stderr.write(r.get('message', 'Unknown Error') + '\n')
+        sys.exit(1)
+    sys.stdout.write('Repo created: %s\n' % r.get('ssh_url'))
+    sys.exit(0)
+
+
+def make_repo():
+    try:
+        args = get_args()
+        auth = get_auth()
+    except GithubCreationError as e:
+        sys.stderr.write(str(e) + '\n')
+        sys.exit(1)
+    else:
+        j = make_json(args)
+        if args.org is None:
+            ep = USER_ENDPOINT
+        else:
+            ep = ORG_ENDPOINT % {'org': args.org}
+        resp = requests.post(ep, data=j, auth=auth)
+        return handle_response(resp)
+
+
+if __name__ == '__main__':
+    make_repo()
