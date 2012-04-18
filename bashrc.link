@@ -1,36 +1,42 @@
+## 
+# Paths
+##
 export PATH="$HOME/bin:/usr/local/sbin:$PATH:$HOME/.util"
 export PYTHONPATH="$HOME/py:${PYTHONPATH:-:}"
+
+
+##
+# Display
+##
+export TERM="xterm-256color"
 export PS1="\u@\h: \W> "
+export CLICOLOR="1"
+export LSCOLORS="CxGxFxHxBxegedabagacad"
+# todo: colors for Ubuntu  eg. LS_COLORS
+
+
+##
+# Prefs & Utility Alliases
+##
 export EDITOR="vim"
-
-## History ##
-shopt -s histappend
-export HISTFILE="$HOME/.bash_history.d$PWD/bash_history.txt"
-export PROMT_COMMAND="history -a; history -n; ${PROMPT_COMMAND:-:}"
-
-## Aliases  ##
 
 # Various System Helpers
 alias flushdns="dscacheutil -flushcache"
 alias refresh="source ~/.bash_profile"
 
 # lazy
-alias l="ls"
+alias l="ls -1"
+alias ls="ls -1"
 alias la="ls -al"
 alias lg="ls -al | grep "
 alias ..="cd .."
 alias gits="git status"
 alias hosts="sudo vim /etc/hosts"
 
-# replace cd
-alias cd="better_cd"
 
-# include local (supa secret) stuff
-if [ -f "$HOME/.profile" ]; then
-    source ~/.profile
-fi
-
-# source .env
+##
+# Load .env files
+##
 function maybe_env()
 {
     if [ -f "$PWD/.env" ]; then
@@ -38,7 +44,13 @@ function maybe_env()
     fi
 }
 
-# set up history
+
+##
+# History
+##
+shopt -s histappend
+export HISTFILE="$HOME/.bash_history.d$PWD/bash_history.txt"
+export PROMT_COMMAND="history -a; history -n; ${PROMPT_COMMAND:-:}"
 function setup_history()
 {
     history -w # write history
@@ -52,7 +64,9 @@ function setup_history()
 }
 
 
-# Activate .env and set up bash history
+##
+# Better CD
+##
 function better_cd()
 {
     if builtin cd "$@"; then
@@ -60,9 +74,21 @@ function better_cd()
         setup_history
     fi
 }
+alias cd="better_cd"
 
-# Safely unalias things -- no error messages
+
+##
+# Util
+##
 function safe_unalias()
 {
     unalias "$@" &>/dev/null
 }
+
+
+##
+# Source local profile files
+##
+if [ -f "$HOME/.profile" ]; then
+    source ~/.profile
+fi
