@@ -90,5 +90,5 @@ function safe_unalias()
 # Source local profile files
 ##
 if [ -f "$HOME/.profile" ]; then
-    source ~/.profile
+    source "$HOME/.profile"
 fi
