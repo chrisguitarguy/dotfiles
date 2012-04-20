@@ -36,6 +36,7 @@ ORG_ENDPOINT = 'https://api.github.com/orgs/%(org)s/repos'
 class GithubCreationError(Exception):
     pass
 
+
 def get_auth():
     """
     Fetch github username and password from the environ
