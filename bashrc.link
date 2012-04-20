@@ -9,7 +9,6 @@ export PYTHONPATH="$HOME/py:${PYTHONPATH:-:}"
 # Display
 ##
 export TERM="xterm-256color"
-export PS1="\u@\h: \W> "
 export CLICOLOR="1"
 export LSCOLORS="CxGxFxHxBxegedabagacad"
 
@@ -95,8 +94,21 @@ function safe_unalias()
 
 
 ##
+# Source files in .bash
+##
+if [ -d "$HOME/.bash" ]; then
+    files_to_source=( $(find ~/.bash/*.sh) )
+    for i in "${files_to_source[@]}"; do
+        source "$i"
+    done
+fi
+
+
+##
 # Source local profile files
 ##
 if [ -f "$HOME/.profile" ]; then
     source "$HOME/.profile"
 fi
+
+
