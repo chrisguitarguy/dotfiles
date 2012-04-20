@@ -1,15 +1,8 @@
 ##
-# Pretty Command prompt
+# Command prompt with git baked in
 #
 # Inspired by: https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
 ##
-
-export MAGENTA="\033[1;31m"
-export ORANGE="\033[1;33m"
-export GREEN="\033[1;32m"
-export PURPLE="\033[1;35m"
-export WHITE="\033[1;37m"
-export RESET="\033[m"
 
 function is_git_dirty()
 {
@@ -21,9 +14,7 @@ function is_git_dirty()
 
 function parse_git_branch()
 {
-    if [ -n "$(git branch 2>/dev/null)" ]; then
-        git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/(\1$(is_git_dirty))/"
-    fi
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ (\1$(is_git_dirty))/"
 }
 
-export PS1="\[${ORANGE}\]\u@\h\[${WHITE}\] \[${GREEN}\]\W \[${PURPLE}\]\$(parse_git_branch)\[${WHITE}\]> \[${RESET}\]"
+export PS1="\u@\h: \W\$(parse_git_branch)> "
