@@ -1,0 +1,29 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Make a logs directory in the current working directory, and touch 
+logs/access.log and logs/error.log.  Useful when creating vhosts for nginx or
+apache or whatever
+"""
+
+import os
+
+
+DIR = os.getcwd()
+LOG_DIR = os.path.join(DIR, 'logs')
+
+
+def main():
+    if not os.path.exists(LOG_DIR):
+        try:
+            os.mkdir(LOG_DIR, 0755)
+        except OSError as e:
+            print('Error creating directory: {e}'.format(e=e))
+    for log in ['access.log', 'error.log']:
+        lf = os.path.join(LOG_DIR, log)
+        with open(lf, 'a') as f:
+            os.utime(lf, None)
+
+
+if __name__ == '__main__':
+    main()
