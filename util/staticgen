@@ -1,0 +1,194 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Simple static site generator.  Run it in any directory.
+
+This assumes that the directory hierarchy looks something like this:
+
+    yoursite/
+        content/
+            index.md
+            some-file.md
+            folder/
+                index.md
+                some-other-page.md
+        html/
+            the document root
+        templates/
+            where your templates are stored
+    
+Usage (assuming this file is somewhere on your PATH):
+
+    shell$ cd /path/to/your/site
+    shell$ staticgen
+
+This is not a blog generator.  It's meant to render simple content sites.
+
+Required libraries:
+    - markdown2 (https://github.com/trentm/python-markdown2)
+    - jinja2 (https://github.com/trentm/python-markdown2)
+"""
+
+import codecs
+import copy
+import os
+
+import jinja2
+import markdown2
+
+
+# Set up a few paths used throughout
+DIR = os.path.abspath(os.getcwd())
+CONTENT = os.path.join(DIR, 'content')
+HTML = os.path.join(DIR, 'html')
+TEMPLATES = os.path.join(DIR, 'templates')
+
+
+class Page(object):
+    """
+    Container for all information about the page: content, metadata, parents,
+    children, siblings, etc.
+    """
+
+    def __init__(self, path, parent=None):
+        self._path = path
+        self.parent = parent
+        self.children = []
+        if self.parent is not None:
+            self.parent.children.append(self)
+            self.siblings = parent.children
+        else:
+            self.siblings = []
+
+        # content settings, nothing setup here
+        self.parse_file()
+
+    def parse_file(self):
+        """
+        Open the file defined by self._path and parse it from markdown into
+        metadata & html
+        """
+        with open(self._path) as f:
+            self._raw = f.read()
+            self.content = markdown2.markdown(self._raw, extras=['metadata'])
+            self.title = self.content.metadata.get(u'title')
+            self.anchor = self.content.metadata.get(u'anchor')
+            self.meta = copy.deepcopy(self.content.metadata)
+            self.template = self.meta.get('template', 'page.html')
+    
+    @property
+    def file_parts(self):
+        """
+        Utility.  Get the parts of the file path, with the CONTENT dir removed
+        """
+        path = self._path.replace(CONTENT, '')
+        return [i.strip('/') for i in path.split(os.sep) if len(i)]
+
+    @property
+    def url(self):
+        """
+        The relative URL of the path.
+        """
+        parts = self.file_parts
+        if 'index.md' == parts[-1]:
+            parts.pop()
+        else:
+            last = parts.pop()
+            last = last.split('.')[0]
+            last += '.html'
+            parts.append(last)
+        rv = '/'.join(parts)
+        rv = '/' + rv.strip('/')
+        if not rv.endswith('.html') and not rv.endswith('/'):
+            rv += '/'
+        return rv
+
+    @property
+    def out_file(self):
+        """
+        The absolute path of where this page will be written to.
+        """
+        parts = self.file_parts
+        last = parts.pop()
+        last = last.split('.')[0]
+        parts.append(last + '.html')
+        return os.path.join(HTML, *parts)
+
+    @property
+    def dir(self):
+        parts = self.file_parts
+        parts.pop()
+        return os.path.join(HTML, *parts)
+
+    @property
+    def crumbs(self):
+        """
+        Breadcrumbs for this page
+        """
+        p = self.parent
+        rv = []
+        rv.append(self.anchor or self.title)
+        while p is not None:
+            rv.append(p.link)
+            p = p.parent
+        rv.reverse()
+        return ' &raquo; '.join(rv)
+
+    @property
+    def link(self):
+        """
+        HTML link for this page
+        """
+        return '<a href="{url}" title="{title}">{title}</a>'.format(
+                url=self.url, title=self.anchor or self.title)
+
+    def __repr__(self):
+        return '<Page({path})>'.format(path=self.out_file)
+
+    def __str__(self):
+        return self.content
+
+    def __unicode__(self):
+        return self.__str__()
+
+
+def walk(path, parent=None):
+    """
+    Walk the the `path` directory parsing the files into a Page objects.
+    """
+    # assumes `os.path.join(path, 'index.md')` exists
+    files = [os.path.join(path, i) for i in os.listdir(path) if i != 'index.md']
+    files = [i for i in files if i.endswith('.md') or os.path.isdir(i)]
+
+    if parent is None:
+        parent = Page(os.path.join(path, 'index.md'))
+    rv = []
+    rv.append(parent)
+    for f in files:
+        if f.endswith('.md'):
+            rv.append(Page(f, parent))
+        else:
+            p = Page(os.path.join(f, 'index.md'), parent)
+            for i in walk(f, p):
+                rv.append(i)
+    return rv
+
+
+def main():
+    """
+    The main event.
+    """
+    pages = walk(CONTENT)
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES),
+            trim_blocks=True, autoescape=False)
+    main_nav = [p for p in pages if p.parent is None or '/' == p.parent.url]
+    for p in pages:
+        template = env.get_template(p.template)
+        if not os.path.exists(p.dir):
+            os.makedirs(p.dir, 0775)
+        with codecs.open(p.out_file, 'wb', 'utf-8') as f:
+            f.write(template.render(page=p, nav=main_nav))
+
+
+if __name__ == '__main__':
+    main()
