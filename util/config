@@ -77,7 +77,7 @@ def parse_args(args):
         else:
             section = 'DEFAULT'
     
-    if 'get' != action:
+    if action == 'set':
         try:
             value = args[2]
         except IndexError:
@@ -119,7 +119,7 @@ def dispatch_action(p, action, section=None, arg=None, value=None):
             rv = value
     elif 'unset' == action:
         try:
-            p.remove_option(section, arg)
+            rv = p.remove_option(section, arg)
         except NoSectionError:
             pass
     elif 'exists' == action:
