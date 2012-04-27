@@ -148,7 +148,7 @@ def main():
     if resp is None:
         print('Looks like it did not work')
         sys.exit(1)
-    print resp
+    print(resp)
     with open(config_file, 'w') as f:
         p.write(f)
 
