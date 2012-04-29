@@ -22,6 +22,11 @@ deactivate() {
         unset _OLD_PATH
     fi
 
+    # Unset current_env
+    if [ -n "$CURRENT_ENV" ]; then
+        unset CURRENT_ENV
+    fi
+
     # Unset and change other stuff here if you wish
     
     # kill this function

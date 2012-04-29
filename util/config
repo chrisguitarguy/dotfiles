@@ -1,0 +1,157 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Set, get and delete items from a config file.
+"""
+
+import os
+import sys
+try:
+    from configparser import (
+        SafeConfigParser, Error, NoSectionError, DuplicateSectionError, 
+        NoOptionError, InterpolationError)
+except ImportError:
+    from ConfigParser import (
+        SafeConfigParser, Error, NoSectionError, DuplicateSectionError, 
+        NoOptionError, InterpolationError, ParsingError)
+
+
+VALID_ACTIONS = ('set', 'get', 'unset', 'exists',)
+
+
+##
+# Exceptions
+##
+class NoConfigFile(Exception):
+    """
+    Raised with the config file does not exist
+    """
+    pass
+
+
+class InvalidArg(IndexError, ValueError):
+    """
+    Raised when some command line args don't make sense
+    """
+    pass
+
+
+##
+# Functions
+##
+def get_config_file():
+    """
+    Fetch the config file form the environment or use the default config.
+    """
+    f = os.environ.get('CONFIG_FILE')
+    if f is None:
+        f = os.path.join(os.path.expanduser('~'), '.config')
+    if not os.path.isfile(f):
+        if os.path.exists(f):
+            raise NoConfigFile('Path to your config exists, but is not a file')
+        else:
+            with open(f) as fp:
+                os.utime(f, None)
+    return f
+
+
+def parse_args(args):
+    """
+    Parse command line args into something usable
+    """
+    try:
+        action = args[0]
+    except IndexError:
+        raise InvalidArg('Please specify an action')
+    else:
+        if action not in VALID_ACTIONS:
+            raise InvalidArg('%s is not a valid action' % action)
+
+    try:
+        arg_name = args[1]
+    except IndexError:
+        raise InvalidArg('No arg was specified')
+    else:
+        if arg_name.count('.') >= 1:
+            section, arg_name = arg_name.split('.', 1)
+        else:
+            section = 'DEFAULT'
+    
+    if action == 'set':
+        try:
+            value = args[2]
+        except IndexError:
+            raise InvalidArg('You must specify a value for "%s"' % action)
+        if len(args) > 3:
+            to_parse = args[3:]
+        else:
+            to_parse = []
+    else:
+        value = None
+        if len(args) > 2:
+            to_parse = args[2:]
+        else:
+            to_parse = []
+
+    return action, section, arg_name, value
+
+
+def set_value(p, section, arg, value):
+    try:
+        p.set(section or 'DEFAULT', arg, value)
+    except NoSectionError:
+        p.add_section(section)
+        return set_value(p, section, arg, value)
+
+
+def dispatch_action(p, action, section=None, arg=None, value=None):
+    rv = None
+    if 'get' == action:
+        try:
+            rv = p.get(section, arg)
+        except (NoSectionError, NoOptionError):
+            pass
+    elif 'set' == action:
+        if value is None:
+            raise InvalidArg('You must specify a value for %s requests' % action)
+        else:
+            set_value(p, section, arg, value)
+            rv = value
+    elif 'unset' == action:
+        try:
+            rv = p.remove_option(section, arg)
+        except NoSectionError:
+            pass
+    elif 'exists' == action:
+        rv = p.has_option(section, arg)
+    return rv
+
+
+def main():
+    try:
+        action, section, arg, value = parse_args(sys.argv[1:])
+    except InvalidArg as e:
+        print(str(e))
+        sys.exit(1)
+    try:
+        config_file = get_config_file()
+    except NoConfigFile:
+        print('No configuration found')
+        sys.exit(1)
+    p = SafeConfigParser()
+    try:
+        p.read(config_file)
+    except ParsingError:
+        print('Error reading config file')
+        sys.exit(1)
+    resp = dispatch_action(p, action, section, arg, value)
+    if resp is None:
+        print('Looks like it did not work')
+        sys.exit(1)
+    print(resp)
+    with open(config_file, 'w') as f:
+        p.write(f)
+
+
+if __name__ == '__main__':
+    main()
