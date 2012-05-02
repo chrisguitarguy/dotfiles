@@ -10,7 +10,7 @@ if [ ! 'Darwin' = $(uname) ]; then
     alias la="ls -al --color"
     alias lg="ls -al --color | grep "
 else
-    alias ls="ls -1 --group-directories-first"
+    alias ls="ls -1"
     alias l="ls"
     alias la="ls -al"
     alias lg="ls -al | grep "
