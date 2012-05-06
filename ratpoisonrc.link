@@ -44,3 +44,5 @@ alias term exec xterm
 bind q delete
 # shift+q removes the current frame
 bind Q remove
+# show the current frame
+bind C curframe
