@@ -1,0 +1,80 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Visit a sitemap, fetch all the URLs then visit each page and extract some
+seo relevant data from it.
+
+Usage:
+    shell$ crawler -s http://www.classicalguitar.org/post-sitemap.xml \
+           -o some-file.xls
+
+Requirements:
+    - BeautifulSoup4
+    - Requests
+    - Tablib
+"""
+
+import argparse
+import sys
+
+from bs4 import BeautifulSoup as Soup
+import requests
+import tablib
+
+
+def fetch_url(url):
+    resp = requests.get(url)
+    try:
+        resp.raise_for_status()
+    except requests.RequestException:
+        pass
+    else:
+        s = Soup(resp.text)
+        title = s.title.string
+        desc = s.find_all('meta', attrs={'name': 'description'})
+        if len(desc):
+            desc = ';'.join([d.get('content') for d in desc])
+        else:
+            desc = 'FALSE'
+        kws = s.find_all('meta', attr={'name': 'keywords'})
+        if len(kws):
+            kws = ';'.join([k.get('content') for k in kws])
+        else:
+            kws = 'FALSE'
+        return url, title, desc, kws
+
+
+def get_url_list(sitemap):
+    """
+    Fetch all urls from a sitemap
+    """
+    resp = requests.get(sitemap)
+    resp.raise_for_status()
+    s = Soup(resp.text)
+    urls = s.find_all('loc')
+    return [u.string for u in urls]
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Extract titles and descriptions "
+            "from the URLs in a sitemap")
+    parser.add_argument('-s', '--sitemap', dest='sitemap', help="The sitemap")
+    parser.add_argument('-o', '--out', dest='out', 
+                         default='out.xls', help='The excel output file')
+    args = parser.parse_args()
+    if args.sitemap is None:
+        print("Please specify a sitemap")
+        sys.exit(1)
+    urls = get_url_list(args.sitemap)
+    if not len(urls):
+        print("No URLs in the sitemap")
+        sys.exit(0)
+    data = tablib.Dataset(headers=('url', 'title', 'desc', 'keywords',))
+    for u in urls:
+        data.append(fetch_url(u))
+    with open(args.out, 'wb') as f:
+        f.write(data.xls)
+
+
+if  __name__ == '__main__':
+    main()
