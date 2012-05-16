@@ -27,7 +27,7 @@ def fetch_url(url):
     try:
         resp.raise_for_status()
     except requests.RequestException:
-        pass
+        return None
     else:
         s = Soup(resp.text)
         title = s.title.string
@@ -71,7 +71,9 @@ def main():
         sys.exit(0)
     data = tablib.Dataset(headers=('url', 'title', 'desc', 'keywords',))
     for u in urls:
-        data.append(fetch_url(u))
+        u_data = fetch_url(u)
+        if u_data is not None:
+            data.append(u_data)
     with open(args.out, 'wb') as f:
         f.write(data.xls)
 
