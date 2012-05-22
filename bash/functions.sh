@@ -3,7 +3,7 @@
 ##
 
 # Load the PWD's .env file if it exists
-function maybe_env()
+maybe_env()
 {
     local env="$PWD/.env"
     if [ -f "$env" ]; then
@@ -26,7 +26,7 @@ function maybe_env()
 
 
 # Set up environments and history on cd
-function better_cd()
+better_cd()
 {
     if builtin cd "$@"; then
         maybe_env
@@ -35,7 +35,7 @@ function better_cd()
 }
 
 # Unalias things and eat errors, useful in .env files
-function safe_unalias()
+safe_unalias()
 {
     unalias "$@" &>/dev/null
 }

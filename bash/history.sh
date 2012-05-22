@@ -7,7 +7,7 @@ export HISTFILE="$HOME/.bash_history.d$PWD/bash_history.txt"
 export HISTIGNORE="ls:l:ls *:la:lg *:cd:cd -:exit:date:* --help"
 export PROMT_COMMAND="history -a; history -n; ${PROMPT_COMMAND:-:}"
 
-function setup_history()
+setup_history()
 {
     history -w # write history
     local HISTDIR="$HOME/.bash_history.d$PWD" # history folder for this dir
