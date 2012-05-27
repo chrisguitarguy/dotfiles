@@ -19,6 +19,7 @@ fi
 
 alias ..="cd .."
 alias ...="cd ../.."
+alias ~="cd ~"
 alias gits="git status"
 alias hosts="sudo vim /etc/hosts"
 alias cd="better_cd"
