@@ -1,12 +1,14 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Visit a sitemap, fetch all the URLs then visit each page and extract some
-seo relevant data from it.
+Visit a sitemap or use a list, fetch all the URLs then visit each page and
+extract some seo relevant data from it.
 
 Usage:
     shell$ crawler -s http://www.classicalguitar.org/post-sitemap.xml \
            -o some-file.xls
+
+    shell$ crawler -f /path/to/url-list.txt -o some-file.xls
 
 Requirements:
     - BeautifulSoup4
@@ -23,7 +25,7 @@ import tablib
 
 
 def fetch_url(url):
-    resp = requests.get(url)
+    resp = requests.get(url, allow_redirects=True)
     try:
         resp.raise_for_status()
     except requests.RequestException:
@@ -59,13 +61,18 @@ def main():
     parser = argparse.ArgumentParser(description="Extract titles and descriptions "
             "from the URLs in a sitemap")
     parser.add_argument('-s', '--sitemap', dest='sitemap', help="The sitemap")
+    parser.add_argument('-f', '--file', dest='file', help='An input file of urls')
     parser.add_argument('-o', '--out', dest='out', 
                          default='out.xls', help='The excel output file')
     args = parser.parse_args()
-    if args.sitemap is None:
-        print("Please specify a sitemap")
+    if args.sitemap is not None:
+        urls = get_url_list(args.sitemap)
+    elif args.file is not None:
+        with open(args.file, 'rU') as f:
+            urls = [i.strip() for i in f.readlines()]
+    else:
+        print("Please specify a sitemap or list of URLs")
         sys.exit(1)
-    urls = get_url_list(args.sitemap)
     if not len(urls):
         print("No URLs in the sitemap")
         sys.exit(0)
