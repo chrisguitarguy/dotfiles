@@ -30,11 +30,3 @@ else
     let g:solarized_visibility="low"
     colorscheme solarized
 endif
-
-" ---------
-" Filetype specific fun
-" ---------
-if has('autocmd')
-    autocmd FileType make setlocal noexpandtab " Use tabs in makefiles
-    autocmd FileType css setlocal ts=2 sts=2 sw=2
-endif
