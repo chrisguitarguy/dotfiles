@@ -1,4 +1,3 @@
-# WordPress Stuff
 snippet pluginhead
 	<?php
 	/*
@@ -11,7 +10,7 @@ snippet pluginhead
 	Author: Christopher Davis
 	Author URI: http://christopherdavis.me
 	License: GPL2
-		
+	
 	    Copyright 2012 Christopher Davis
 	
 	    This program is free software; you can redistribute it and/or modify
@@ -27,26 +26,19 @@ snippet pluginhead
 	    along with this program; if not, write to the Free Software
 	    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 	*/${7}
-
 snippet plugindir
-	define( '${1}', plugin_dir_path( __FILE__ ) );${2}
-
+	define('${1}', plugin_dir_path(__FILE__));${2}
 snippet pluginurl
-	define( '${1}', plugin_dir_url( __FILE__ ) );${2}
-
-# PHP fun
+	define('${1}', plugin_dir_url(__FILE__));${2}
 snippet inc
-	include_once( ${1} );${2}
-
+	include_once(${1});${2}
 snippet req
-	require_once( ${1} );${2}
-
+	require_once(${1});${2}
 snippet func
 	function ${1}( ${2} )
 	{
 	    ${3}
 	}
-
 snippet cls
 	class ${1}
 	{
@@ -55,15 +47,15 @@ snippet cls
 
 	    }
 	}
-
 snippet if
-	if( ${1} )
+	if(${1})
 	{
 	    ${2}
 	}
-
 snippet fe
-	foreach( ${1} as ${2} )
+	foreach(${1} as ${2})
 	{
 	    ${3}
 	}
+snippet author
+	@author Christopher Davis <http://christopherdavis.me>
