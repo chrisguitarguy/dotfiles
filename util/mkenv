@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import stat
 
 out = """# environment file
 echo "Setting up %(environ)s environment"
@@ -50,8 +51,10 @@ export PS1="(%(environ)s)$PS1"
 def main():
     pwd = os.getcwd()
     environ = os.path.basename(pwd)
-    with open(os.path.join(pwd, '.env'), 'w') as f:
+    filename = os.path.join(pwd, '.env')
+    with open(filename, 'w') as f:
         f.write(out % {'environ': environ})
+    os.chmod(filename, stat.S_IWUSR | stat.S_IRUSR)
 
 
 if __name__ == '__main__':
