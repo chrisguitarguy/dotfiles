@@ -10,7 +10,6 @@ set shiftwidth=4
 set tabstop=4
 set expandtab
 set nosmarttab
-set colorcolumn=80
 set autoindent
 set backspace=2
 
@@ -22,6 +21,9 @@ set ruler
 set number
 set list
 set listchars=tab:▸\ ,eol:¬
+if exists('+colorcolumn')
+    set colorcolumn=80
+endif
 if has('gui_running')
     colorscheme blackboard " gvim or macvim
 else
