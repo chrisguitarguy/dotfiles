@@ -17,10 +17,13 @@ set backspace=2
 " ----------
 " UI
 " ----------
+set title
+set visualbell
+set noerrorbells
 set ruler
 set number
 set list
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:¬,trail:.
 if exists('+colorcolumn')
     set colorcolumn=80
 endif
