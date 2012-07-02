@@ -23,7 +23,7 @@ set noerrorbells
 set ruler
 set number
 set list
-set listchars=tab:▸\ ,eol:¬,trail:.
+set listchars=tab:▸\ ,eol:¬
 if exists('+colorcolumn')
     set colorcolumn=80
 endif
