@@ -1,7 +1,9 @@
 ##
 # Command prompt with git baked in
-#
-# Inspired by: https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
+##
+# Inspired by:
+# https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
+# https://github.com/ymendel/dotfiles/blob/master/shell/prompt.bash
 ##
 
 is_git_dirty()
@@ -12,9 +14,15 @@ is_git_dirty()
     fi
 }
 
-parse_git_branch()
+git_current_branch()
 {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ (\1$(is_git_dirty))/"
+    git branch --no-color 2>/dev/null | awk '/^\* /{print $2}'
 }
 
-export PS1="\u@\h: \W\$(parse_git_branch)> "
+git_display()
+{
+    export GIT_DIRTY=$(is_git_dirty)
+    git_current_branch | awk '{if ($1) print " (" $1 ENVIRON["GIT_DIRTY"] ")"}'
+}
+
+export PS1="\u@\h: \W\$(git_display)> "
