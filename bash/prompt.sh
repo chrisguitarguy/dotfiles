@@ -17,7 +17,7 @@ is_git_dirty()
 git_current_branch()
 {
     branch=$(git branch --no-color 2>/dev/null | awk '/^\* /{print $2}')
-    if [ "(no" = $branch ]; then
+    if [ "(no" = "$branch" ]; then
         branch=$(git name-rev --name-only HEAD 2>/dev/null)
     fi
     echo $branch
