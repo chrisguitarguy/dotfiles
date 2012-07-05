@@ -1,6 +1,6 @@
 ##
 # Command prompt with git baked in
-##
+#
 # Inspired by:
 # https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
 # https://github.com/ymendel/dotfiles/blob/master/shell/prompt.bash
@@ -16,7 +16,11 @@ is_git_dirty()
 
 git_current_branch()
 {
-    git branch --no-color 2>/dev/null | awk '/^\* /{print $2}'
+    branch=$(git branch --no-color 2>/dev/null | awk '/^\* /{print $2}')
+    if [ "(no" = $branch ]; then
+        branch=$(git name-rev --name-only HEAD 2>/dev/null)
+    fi
+    echo $branch
 }
 
 git_display()
