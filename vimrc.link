@@ -1,7 +1,13 @@
+filetype off
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 syntax on
 filetype plugin indent on
+
+let mapleader=","
+set nocompatible
+set hidden
+set modelines=0
 set encoding=utf-8
 set autoindent
 set nowrap
@@ -11,14 +17,20 @@ set tabstop=4
 set expandtab
 set nosmarttab
 set autoindent
-set backspace=2
+set backspace=indent,eol,start
+set hidden
 
 
 " ----------
 " UI
 " ----------
+set showmode
+set showcmd
+set wildmenu
+set wildmode=list:longest
+set cursorline
 set title
-set visualbell
+set novisualbell
 set noerrorbells
 set ruler
 set number
@@ -35,3 +47,33 @@ else
     let g:solarized_visibility="low"
     colorscheme solarized
 endif
+" NERDTree stuff
+if has('autocmd')
+    autocmd vimenter * NERDTree
+    autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+endif
+
+
+" ----------
+" Searching
+" ----------
+nnoremap / /\v
+vnoremap / /\v
+set ignorecase
+set smartcase
+set gdefault
+set incsearch
+set showmatch
+set hlsearch
+nnoremap <leader><space> :noh<cr>
+nnoremap <tab> %
+vnoremap <tab> %
+
+
+" ----------
+" Mappings
+" ----------
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
