@@ -7,9 +7,13 @@ filetype plugin indent on
 let mapleader=","
 set nocompatible
 
-" Keep backup file out of the working directory
-set backupdir=~/.vimtemp.d,.
-set directory=~/.vimtemp.d,.
+" backups
+set backupdir=~/.vim/tmp/back,.
+set directory=~/.vim/tmp/swp,.
+set undodir=~/.vim/tmp/undo,.
+set backup
+set undofile
+
 set hidden
 set modelines=0
 set encoding=utf-8
