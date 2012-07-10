@@ -40,6 +40,8 @@ set number
 set list
 set listchars=tab:▸\ ,eol:¬
 set noshowmatch
+set laststatus=2
+set statusline=%f\ %y\ %{&ff}\ [%c,%l]
 if exists('+colorcolumn')
     set colorcolumn=80
 endif
