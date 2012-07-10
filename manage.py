@@ -55,6 +55,12 @@ def make_links(linkables):
             print('Symlinked %s to %s' % (dest, name))
 
 
+def make_vimtemp():
+    d = os.path.join(HOME, '.vimtemp.d')
+    if not os.path.exists(d):
+        os.mkdir(d)
+
+
 def main():
     """
     Main entry point for this script.
@@ -72,6 +78,7 @@ def main():
             maybe_delete(name)
     else:
         make_links(linkables)
+    make_vimtemp()
     sys.exit(0)
 
 

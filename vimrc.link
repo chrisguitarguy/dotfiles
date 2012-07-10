@@ -6,6 +6,10 @@ filetype plugin indent on
 
 let mapleader=","
 set nocompatible
+
+" Keep backup file out of the working directory
+set backupdir=~/.vimtemp.d,.
+set directory=~/.vimtemp.d,.
 set hidden
 set modelines=0
 set encoding=utf-8
@@ -18,7 +22,6 @@ set expandtab
 set nosmarttab
 set autoindent
 set backspace=indent,eol,start
-set hidden
 
 
 " ----------
@@ -36,6 +39,7 @@ set ruler
 set number
 set list
 set listchars=tab:▸\ ,eol:¬
+set noshowmatch
 if exists('+colorcolumn')
     set colorcolumn=80
 endif
@@ -62,7 +66,6 @@ set ignorecase
 set smartcase
 set gdefault
 set incsearch
-set showmatch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
 nnoremap <tab> %
