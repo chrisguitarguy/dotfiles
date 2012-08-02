@@ -35,17 +35,19 @@ snippet inc
 snippet req
 	require_once(${1});${2}
 snippet func
-	function ${1}( ${2} )
+	function ${1}(${2})
 	{
 	    ${3}
+	}
+snippet meth
+	${1} function ${2}(${3})
+	{
+	    ${4}
 	}
 snippet cls
 	class ${1}
 	{
-	    function __construct(${2})
-	    {
-
-	    }
+	    ${2}
 	}
 snippet if
 	if(${1})
