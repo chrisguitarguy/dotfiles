@@ -40,3 +40,8 @@ safe_unalias()
     unalias "$@" &>/dev/null
 }
 
+# make a cd into it in one command
+mkcd()
+{
+    mkdir "$1" && cd "$1"
+}
