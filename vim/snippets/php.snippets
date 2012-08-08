@@ -30,6 +30,8 @@ snippet plugindir
 	define('${1}', plugin_dir_path(__FILE__));${2}
 snippet pluginurl
 	define('${1}', plugin_dir_url(__FILE__));${2}
+snippet nowp
+	!defined('ABSPATH') && exit();
 snippet inc
 	include_once(${1});${2}
 snippet req
