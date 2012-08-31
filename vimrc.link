@@ -6,6 +6,7 @@ filetype plugin indent on
 
 let mapleader=","
 set nocompatible
+set synmaxcol=250 " don't let vim do syntax on long lines. Speeds up terminal vim.
 
 " backups
 set backupdir=~/.vim/tmp/back,.
