@@ -11,9 +11,13 @@ set synmaxcol=250 " don't let vim do syntax on long lines. Speeds up terminal vi
 " backups
 set backupdir=~/.vim/tmp/back,.
 set directory=~/.vim/tmp/swp,.
-set undodir=~/.vim/tmp/undo,.
+if exists('+undodir')
+    set undodir=~/.vim/tmp/undo,.
+endif
 set backup
-set undofile
+if exists('+undofile')
+    set undofile
+endif
 
 set hidden
 set modelines=0
