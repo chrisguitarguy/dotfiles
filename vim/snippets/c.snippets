@@ -5,16 +5,16 @@ snippet def
 snippet func
 	${1}(${2})
 	{
-	  ${3}
+	    ${3}
 	}
-snippet funcmain
-	int main(int argc, char **argv)
+snippet main
+	int main(int argc, char *argv[])
 	{
-	  ${1}
+	    ${1}
 	}
 snippet exitfail
 	exit(EXIT_FAILURE);
-snippet exitsuccess
+snippet exitsucc
 	exit(EXIT_SUCCESS);
-snippet returnsuccess
+snippet returnsucc
 	return EXIT_SUCCESS;
