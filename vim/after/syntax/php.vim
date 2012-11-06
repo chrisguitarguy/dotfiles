@@ -1,5 +1,8 @@
 syn keyword phpFunctions get_called_class
 
+syntax keyword phpSpecialFunction containedin=ALLBUT,phpComment,phpStringDouble,phpStringSingle,phpIdentifier
+ \ __invoke
+
 " WordPress functions that I like to have colorized
 
 " Plugin API
