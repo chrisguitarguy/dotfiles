@@ -4,7 +4,7 @@
 shopt -s histappend
 
 export HISTFILE="$HOME/.bash_history.d$PWD/bash_history.txt"
-export HISTIGNORE="ls:l:ls *:la:lg *:cd:cd -:exit:date:* --help"
+export HISTIGNORE="ls:l:ls:la:cd:cd -:exit:date:* --help"
 export PROMT_COMMAND="history -a; history -n; ${PROMPT_COMMAND:-:}"
 
 setup_history()
