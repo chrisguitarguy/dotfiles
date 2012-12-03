@@ -15,7 +15,7 @@ syn keyword phpFunctions add_rewrite_rule add_rewrite_tag add_rewrite_endpoint a
 syn keyword phpFunctions add_option delete_option add_site_option delete_site_option get_option update_option get_site_option update_site_option
 
 " Transients API
-syn keyword phpFunctions set_transient get_transient set_site_transient get_site_transient delete_transiet delete_site_transient
+syn keyword phpFunctions set_transient get_transient set_site_transient get_site_transient delete_transient delete_site_transient
 
 " Shortcodes API
 syn keyword phpFunctions do_shortcode add_shortcode remove_shortcode remove_all_shortcodes shortcode_atts
