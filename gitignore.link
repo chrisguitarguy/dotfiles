@@ -25,3 +25,6 @@
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# ignore Sass cache
+.sass-cache
