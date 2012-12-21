@@ -1,1 +1,4 @@
 --type-add=css=.less,.scss
+
+# seach conf files
+--type-set=conf=.conf,.ini
