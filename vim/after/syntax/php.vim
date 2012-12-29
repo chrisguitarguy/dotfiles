@@ -1,7 +1,14 @@
 syn keyword phpFunctions get_called_class
 
+" PHP 5.3+ stuff
 syntax keyword phpSpecialFunction containedin=ALLBUT,phpComment,phpStringDouble,phpStringSingle,phpIdentifier
  \ __invoke
+
+syn keyword phpConstant __DIR__ contained
+
+syn keyword phpStructure namespace
+
+syn keyword phpDefine use
 
 " WordPress functions that I like to have colorized
 
