@@ -151,3 +151,36 @@ snippet workhead
 	 * @license     http://opensource.org/licenses/GPL-2.0 GPL-2.0+
 	 */
 	${6}
+snippet pluginbase
+	private $project;
+
+	private static $reg;
+
+	public static function instance()
+	{
+	    $cls = get_called_class();
+
+	    if (!isset(self::$reg[$cls])) {
+	        self::$reg[$cls] = new $cls(pmgcore('${1}'));
+	    }
+
+	    return self::$reg[$cls];
+	}
+
+	public static function init()
+	{
+	    add_action('${2}', array(static::instance(), '_setup'));
+	}
+
+	abstract public function _setup();
+
+	final public function __construct(\PMG\Core\Project $core)
+	{
+	    $this->project = $core;
+	}
+
+	final public function getProject()
+	{
+	    return $this->project;
+	}
+	${3}
