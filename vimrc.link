@@ -91,4 +91,5 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-x> <C-w>x
 nnoremap <leader>nt :NERDTreeToggle<cr>
+nnoremap <leader>bb :buffers<cr>:buffer<space>
 inoremap jj <Esc>
