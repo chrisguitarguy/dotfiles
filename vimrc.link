@@ -92,4 +92,5 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-x> <C-w>x
 nnoremap <leader>nt :NERDTreeToggle<cr>
 nnoremap <leader>bb :buffers<cr>:buffer<space>
+nnoremap <leader>p :set paste!<cr>
 inoremap jj <Esc>
