@@ -6,7 +6,7 @@ syntax keyword phpSpecialFunction containedin=ALLBUT,phpComment,phpStringDouble,
 
 syn keyword phpConstant __DIR__ contained
 
-syn keyword phpStructure namespace
+syn keyword phpStructure namespace insteadof
 
 syn keyword phpDefine use
 
