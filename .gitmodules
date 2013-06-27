@@ -34,3 +34,6 @@
 [submodule "vim/bundle/scss"]
 	path = vim/bundle/scss
 	url = git://github.com/cakebaker/scss-syntax.vim.git
+[submodule "vim/bundle/vim-twig"]
+	path = vim/bundle/vim-twig
+	url = git@github.com:beyondwords/vim-twig.git
