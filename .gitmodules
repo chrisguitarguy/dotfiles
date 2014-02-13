@@ -39,4 +39,4 @@
 	url = git@github.com:beyondwords/vim-twig.git
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
-	url = git@github.com:majutsushi/tagbar.git
+	url = https://github.com/majutsushi/tagbar.git
