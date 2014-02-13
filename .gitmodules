@@ -36,7 +36,7 @@
 	url = git://github.com/cakebaker/scss-syntax.vim.git
 [submodule "vim/bundle/vim-twig"]
 	path = vim/bundle/vim-twig
-	url = git@github.com:beyondwords/vim-twig.git
+	url = https://github.com/beyondwords/vim-twig.git
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar.git
