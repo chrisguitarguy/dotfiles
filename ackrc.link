@@ -2,3 +2,9 @@
 
 # seach conf files
 --type-set=conf=.conf,.ini
+
+# search twig files
+--type-set=html=.twig
+
+# search restructuredtext
+--type-add=plaintext=.rst,.md
