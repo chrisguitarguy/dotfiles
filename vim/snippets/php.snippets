@@ -72,10 +72,6 @@ snippet plugindir
 	define('${1}', plugin_dir_path(__FILE__));${2}
 snippet pluginurl
 	define('${1}', plugin_dir_url(__FILE__));${2}
-snippet inc
-	include_once(${1});${2}
-snippet req
-	require_once(${1});${2}
 snippet func
 	function ${1}(${2})
 	{
@@ -86,20 +82,15 @@ snippet meth
 	{
 	    ${4}
 	}
-snippet cls
+snippet class
 	class ${1}
 	{
 	    ${2}
 	}
-snippet if
-	if(${1})
+snippet interface
+	interface ${1}
 	{
 	    ${2}
-	}
-snippet fe
-	foreach(${1} as ${2})
-	{
-	    ${3}
 	}
 snippet author
 	@author Christopher Davis <http://christopherdavis.me>
