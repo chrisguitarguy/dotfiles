@@ -45,6 +45,7 @@ set novisualbell
 set noerrorbells
 set ruler
 set number
+set relativenumber
 set list
 set listchars=tab:▸\ ,eol:¬
 set noshowmatch
