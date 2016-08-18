@@ -1,6 +1,7 @@
 filetype off
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
+call pathogen#helptags()
 syntax on
 filetype plugin indent on
 
@@ -62,10 +63,14 @@ else
     let g:solarized_visibility="low"
     colorscheme solarized
 endif
-" NERDTree stuff
+
+" NERDTree
 if has('autocmd')
     autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 endif
+
+" JavaScript/JSX
+let g:jsx_ext_required=0
 
 
 " ----------
