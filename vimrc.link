@@ -55,14 +55,11 @@ set statusline=%f%{&paste?'(paste)':''}\ \ \ Filetype:%y\ -\ %{&ff}\ \ \ \ Line:
 if exists('+colorcolumn')
     set colorcolumn=80,120
 endif
-if has('gui_running')
-    colorscheme blackboard " gvim or macvim
-else
-    set background=dark
-    let g:solarized_termcolors=256
-    let g:solarized_visibility="low"
-    colorscheme solarized
-endif
+
+set background=dark
+let g:solarized_termcolors=256
+let g:solarized_visibility="low"
+colorscheme solarized
 
 " NERDTree
 if has('autocmd')
@@ -70,6 +67,7 @@ if has('autocmd')
 endif
 
 " JavaScript/JSX
+let g:javascript_plugin_jsdoc=1
 let g:jsx_ext_required=0
 
 
