@@ -29,7 +29,6 @@ maybe_env()
 better_cd()
 {
     if builtin cd "$@"; then
-        maybe_env
         setup_history
     fi
 }
