@@ -51,10 +51,12 @@ set list
 set listchars=tab:▸\ ,eol:¬
 set noshowmatch
 set laststatus=2
-set statusline=%f%{&paste?'(paste)':''}\ \ \ Filetype:%y\ -\ %{&ff}\ \ \ \ Line:%l/%L\ %p%%
 if exists('+colorcolumn')
     set colorcolumn=80,120
 endif
+let g:ale_sign_column_always = 1
+let b:ale_linters = {'php': ['php']}
+"let g:airline#extensions#tabline#enabled = 1
 
 set background=dark
 let g:solarized_termcolors=256
@@ -99,3 +101,5 @@ nnoremap <leader>tb :TagbarToggle<cr>
 nnoremap <leader>bb :buffers<cr>:buffer<space>
 nnoremap <leader>p :set paste!<cr>
 inoremap jj <Esc>
+nmap <leader>ek <Plug>(ale_previous_wrap)
+nmap <leader>ej <Plug>(ale_next_wrap)
