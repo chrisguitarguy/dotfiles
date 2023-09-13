@@ -64,3 +64,6 @@
 [submodule "vim/bundle/vim-terraform"]
 	path = vim/bundle/vim-terraform
 	url = https://github.com/hashivim/vim-terraform.git
+[submodule "vim/pack/plugins/start/copilot.vim"]
+	path = vim/pack/plugins/start/copilot.vim
+	url = https://github.com/github/copilot.vim.git
