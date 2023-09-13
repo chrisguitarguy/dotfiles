@@ -103,3 +103,5 @@ nnoremap <leader>p :set paste!<cr>
 inoremap jj <Esc>
 nmap <leader>ek <Plug>(ale_previous_wrap)
 nmap <leader>ej <Plug>(ale_next_wrap)
+
+autocmd BufEnter *.tf ALEDisable
